@@ -715,7 +715,18 @@ elif page == "📖 About":
     col1, col2 = st.columns(2)
     
     with col1:
-        st.image(r"C:\Users\sambi\.gemini\antigravity\brain\1aade513-508c-490b-8d22-18782149c2ad\ai_neural_processing_about_1772212637611.png", use_container_width=True)
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.3); border-radius: 1.5rem; padding: 2.5rem; text-align: center; margin-bottom: 10px;">
+            <div style="font-size: 5rem; margin-bottom: 1rem; filter: drop-shadow(0 0 20px rgba(139,92,246,0.8));">🧠</div>
+            <div style="font-family: 'Courier New', monospace; font-size: 0.75rem; color: #8b5cf6; letter-spacing: 2px;">NEURAL NETWORK — ACTIVE</div>
+            <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 6px;">
+                <div style="width:10px;height:10px;border-radius:50%;background:#8b5cf6;animation:pulse 1.2s infinite;"></div>
+                <div style="width:10px;height:10px;border-radius:50%;background:#06b6d4;animation:pulse 1.2s 0.4s infinite;"></div>
+                <div style="width:10px;height:10px;border-radius:50%;background:#8b5cf6;animation:pulse 1.2s 0.8s infinite;"></div>
+            </div>
+        </div>
+        <style>@keyframes pulse { 0%,100%{opacity:0.3;transform:scale(0.8);} 50%{opacity:1;transform:scale(1.2);} }</style>
+        """, unsafe_allow_html=True)
         st.markdown("""
         <div class='sidebar-content' style='margin-top:10px;'>
             <h4 style='color:#8b5cf6;'>NEURAL ARCHITECTURE</h4>
@@ -738,7 +749,16 @@ elif page == "📖 About":
             </p>
         </div>
         """, unsafe_allow_html=True)
-        st.image(r"C:\Users\sambi\.gemini\antigravity\brain\1aade513-508c-490b-8d22-18782149c2ad\pharmaceutical_security_hologram_1772212654259.png", use_container_width=True)
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, rgba(6,182,212,0.15), rgba(139,92,246,0.1)); border: 1px solid rgba(6,182,212,0.3); border-radius: 1.5rem; padding: 2.5rem; text-align: center; margin-top: 10px;">
+            <div style="font-size: 5rem; margin-bottom: 1rem; filter: drop-shadow(0 0 20px rgba(6,182,212,0.8));">🛡️</div>
+            <div style="font-family: 'Courier New', monospace; font-size: 0.75rem; color: #06b6d4; letter-spacing: 2px;">SPECTRAL SHIELD — ONLINE</div>
+            <div style="margin-top: 1rem;">
+                <div style="height: 4px; background: linear-gradient(90deg, transparent, #06b6d4, transparent); border-radius: 2px; animation: scan 2s ease-in-out infinite;"></div>
+            </div>
+        </div>
+        <style>@keyframes scan { 0%,100%{opacity:0.2;} 50%{opacity:1;} }</style>
+        """, unsafe_allow_html=True)
 
     st.markdown("""
     <div style='background: rgba(139, 92, 246, 0.05); padding: 2rem; border-radius: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.2); margin-top: 2rem;'>
