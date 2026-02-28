@@ -440,17 +440,126 @@ model, model_type = load_medguard_model()
 page = st.session_state.page
 
 if page == "🏠 Home":
-    # --- Hero Section ---
+
+    # --- PREMIUM LAYER: Animated styles for home ---
     st.markdown("""
-    <div style="text-align: center; padding: 4rem 1rem 2rem;">
+    <style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-badge { animation: fadeInUp 0.6s ease both; }
+    .hero-h1    { animation: fadeInUp 0.8s 0.15s ease both; }
+    .hero-sub   { animation: fadeInUp 0.8s 0.30s ease both; }
+    .orb-left {
+        position: absolute; left: -120px; top: 80px;
+        width: 420px; height: 420px;
+        background: radial-gradient(circle, rgba(139,92,246,0.22) 0%, transparent 70%);
+        border-radius: 50%; pointer-events: none; filter: blur(40px);
+        animation: orbFloat 8s ease-in-out infinite alternate;
+    }
+    .orb-right {
+        position: absolute; right: -120px; top: 120px;
+        width: 380px; height: 380px;
+        background: radial-gradient(circle, rgba(6,182,212,0.18) 0%, transparent 70%);
+        border-radius: 50%; pointer-events: none; filter: blur(40px);
+        animation: orbFloat 10s 2s ease-in-out infinite alternate;
+    }
+    @keyframes orbFloat {
+        from { transform: translateY(0px) scale(1); }
+        to   { transform: translateY(-40px) scale(1.08); }
+    }
+    .tw-cursor {
+        display: inline-block; width: 2px; height: 1.1em;
+        background: #06b6d4; margin-left: 3px; vertical-align: text-bottom;
+        animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+    .stats-strip {
+        display: flex; justify-content: center; gap: 0;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 2rem; padding: 2.5rem 2rem;
+        backdrop-filter: blur(20px);
+        margin: 3rem auto 0; max-width: 750px;
+    }
+    .stat-item { flex: 1; text-align: center; position: relative; }
+    .stat-item:not(:last-child)::after {
+        content: ''; position: absolute; right: 0; top: 20%; height: 60%;
+        width: 1px; background: rgba(255,255,255,0.1);
+    }
+    .stat-num {
+        font-size: 2.8rem; font-weight: 900; letter-spacing: -2px;
+        background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-lbl { font-size: 0.73rem; color: #64748b; letter-spacing: 1.5px;
+        text-transform: uppercase; margin-top: 4px; }
+    .marquee-wrapper {
+        overflow: hidden; white-space: nowrap;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding: 1rem 0; margin-top: 3rem;
+    }
+    .marquee-track { display: inline-block; animation: marquee 28s linear infinite; }
+    .marquee-item {
+        display: inline-block; margin: 0 2.5rem;
+        font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+        color: #475569; font-weight: 600;
+    }
+    .marquee-dot { color: #8b5cf6; margin-right: 0.5rem; }
+    @keyframes marquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+    .radar-ring {
+        position: absolute; border-radius: 50%;
+        border: 1px solid rgba(6,182,212,0.25);
+        animation: radarExpand 3s ease-out infinite;
+        left: 50%; top: 50%;
+    }
+    @keyframes radarExpand {
+        0%   { width:40px;height:40px;opacity:0.9;transform:translate(-50%,-50%); }
+        100% { width:380px;height:380px;opacity:0;transform:translate(-50%,-50%); }
+    }
+    .radar-ring:nth-child(3) { animation-delay: 1s; }
+    .radar-ring:nth-child(4) { animation-delay: 2s; }
+    .hud-dot {
+        display:inline-block; width:8px; height:8px; border-radius:50%;
+        background:#10b981; animation: statusBlink 1.5s ease infinite;
+        vertical-align: middle;
+    }
+    @keyframes statusBlink {
+        0%,100%{box-shadow:0 0 4px #10b981;} 50%{box-shadow:0 0 14px #10b981,0 0 22px #10b981;} }
+    </style>
+    <div style="position:relative;overflow:visible;">
+        <div class="orb-left"></div>
+        <div class="orb-right"></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- Hero Text ---
+    st.markdown("""
+    <div style="text-align: center; padding: 4rem 1rem 0; position: relative;">
         <div style="display: inline-block; padding: 0.4rem 1.2rem; background: rgba(6, 182, 212, 0.1); border-radius: 100px; border: 1px solid rgba(6, 182, 212, 0.3); margin-bottom: 2rem;">
-            <span style="font-size: 0.8rem; font-weight: 600; color: #06b6d4; letter-spacing: 1px; text-transform: uppercase;">Protect your health safety</span>
+        <div class="hero-badge" style="display:inline-flex;align-items:center;gap:8px;padding:0.45rem 1.4rem;
+             background:rgba(6,182,212,0.08);border-radius:100px;
+             border:1px solid rgba(6,182,212,0.35);margin-bottom:2rem;">
+            <span class="hud-dot"></span>
+            <span style="font-size:0.78rem;font-weight:700;color:#06b6d4;
+                letter-spacing:1.5px;text-transform:uppercase;">Neural Engine &mdash; Online</span>
         </div>
-        <h1 style="font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; font-weight: 800; color: #fff; margin-bottom: 1.5rem; letter-spacing: -2px;">
-            Detect Fake Medicines <br><span style="background: linear-gradient(90deg, #fff, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">with Neural Precision</span>
+        <h1 class="hero-h1" style="font-size:clamp(2.5rem,5vw,4.8rem);line-height:1.08;
+             font-weight:900;color:#fff;margin-bottom:1.5rem;letter-spacing:-2.5px;">
+            Detect Fake Medicines<br>
+            <span style="background:linear-gradient(90deg,#e2e8f0,#06b6d4,#8b5cf6);
+                -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                background-size:200% auto;animation:shine 4s linear infinite;">
+                with Neural Precision
+            </span>
         </h1>
-        <p style="font-size: 1.2rem; color: #94a3b8; max-width: 650px; margin: 0 auto 3rem; line-height: 1.6;">
-            Identifying counterfeit pharmaceuticals using advanced image recognition. Fast, reliable, and accessible everywhere.
+        <p class="hero-sub" style="font-size:1.15rem;color:#94a3b8;max-width:620px;
+             margin:0 auto 2.5rem;line-height:1.75;">
+            Identifying counterfeit pharmaceuticals using advanced image recognition.
+            Fast, reliable, and accessible everywhere.
+            <span class="tw-cursor"></span>
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -458,18 +567,64 @@ if page == "🏠 Home":
     # Place perfectly centered button in hero
     hero_col1, hero_col2, hero_col3 = st.columns([1, 1, 1])
     with hero_col2:
-        if st.button("Start scanning medicine", type="primary", use_container_width=True):
+        if st.button("⚡  Start Scanning Medicine", type="primary", use_container_width=True):
             st.session_state.page = "🔍 AI Scanner"
             st.rerun()
 
-    # Spacing
-    st.markdown('<div style="margin-bottom: 5rem;"></div>', unsafe_allow_html=True)
+    # --- Animated Stats Strip ---
+    st.markdown("""
+    <div class="stats-strip">
+        <div class="stat-item">
+            <div class="stat-num" id="s1">0%</div>
+            <div class="stat-lbl">Detection Accuracy</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">24/7</div>
+            <div class="stat-lbl">Neural Monitoring</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num" id="s3">0s</div>
+            <div class="stat-lbl">Avg Scan Time</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num" id="s4">0K+</div>
+            <div class="stat-lbl">Scans Processed</div>
+        </div>
+    </div>
+    <script>
+    (function(){
+        function countUp(id, start, end, suffix, duration, decimals) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            var range = end - start, startTime = null;
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                var progress = Math.min((ts - startTime) / duration, 1);
+                var val = start + range * progress;
+                el.textContent = (decimals ? val.toFixed(1) : Math.floor(val)) + suffix;
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+        setTimeout(function(){
+            countUp('s1', 0, 97, '%', 1800, false);
+            countUp('s3', 0, 1.2, 's', 1400, true);
+            countUp('s4', 0, 500, 'K+', 2000, false);
+        }, 300);
+    })();
+    </script>
+    """, unsafe_allow_html=True)
 
-    # --- Scanning Mockup / Hero Animation ---
+    st.markdown('<div style="margin-bottom: 3rem;"></div>', unsafe_allow_html=True)
+
+    # --- Premium Scanner Box ---
     st.markdown("""
 <div class="hero-scanner-wrapper">
     <div class="hero-scanner-box">
         <div class="scanner-grid"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
         <div class="crosshair top-left"></div>
         <div class="crosshair top-right"></div>
         <div class="crosshair bottom-left"></div>
@@ -478,151 +633,170 @@ if page == "🏠 Home":
             <div class="pill-icon">💊</div>
         </div>
         <div class="scanner-laser"></div>
+        <div style="position:absolute;top:18px;left:50%;transform:translateX(-50%);
+            background:rgba(0,0,0,0.6);border:1px solid rgba(6,182,212,0.25);
+            border-radius:100px;padding:4px 18px;font-family:'Courier New',monospace;
+            font-size:0.7rem;color:#06b6d4;letter-spacing:2px;z-index:5;
+            white-space:nowrap;">
+            <span class="hud-dot" style="width:6px;height:6px;margin-right:8px;"></span>
+            MEDGUARD_AI &nbsp;|&nbsp; SPECTRAL_SCAN_v4.2
+        </div>
         <div class="scanner-data">verifying_hash::0x8F92A1B... <br> [STATUS: ANALYZING SPECTRAL DATA]</div>
     </div>
 </div>
 
 <style>
 .hero-scanner-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 2rem 0;
-    perspective: 1000px;
+    display: flex; justify-content: center; align-items: center;
+    width: 100%; padding: 2rem 0; perspective: 1200px;
 }
 .hero-scanner-box {
-    position: relative;
-    width: 100%;
-    max-width: 700px;
-    height: 400px;
-    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(5, 5, 5, 0.8) 100%);
-    border: 1px solid rgba(6, 182, 212, 0.3);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 40px rgba(139, 92, 246, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: rotateX(10deg);
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    position: relative; width: 100%; max-width: 720px; height: 420px;
+    background: radial-gradient(circle at center, rgba(139,92,246,0.18) 0%, rgba(5,5,5,0.85) 100%);
+    border: 1px solid rgba(6,182,212,0.35); border-radius: 24px; overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(139,92,246,0.1), 0 25px 60px rgba(0,0,0,0.6),
+                inset 0 0 60px rgba(139,92,246,0.08);
+    display: flex; justify-content: center; align-items: center;
+    transform: rotateX(8deg);
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1), box-shadow 0.6s ease;
 }
 .hero-scanner-box:hover {
     transform: rotateX(0deg) scale(1.02);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 60px rgba(6, 182, 212, 0.2);
+    box-shadow: 0 0 0 1px rgba(6,182,212,0.3), 0 35px 70px rgba(0,0,0,0.7),
+                inset 0 0 80px rgba(6,182,212,0.12);
 }
 .scanner-grid {
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background-image: 
-        linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
-    background-size: 30px 30px;
-    animation: grid-scroll 15s linear infinite;
-    z-index: 1;
+    position: absolute; width: 200%; height: 200%;
+    background-image:
+        linear-gradient(rgba(6,182,212,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6,182,212,0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+    animation: grid-scroll 18s linear infinite; z-index: 1;
 }
-@keyframes grid-scroll {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-30px); }
-}
-.scanner-hologram {
-    z-index: 2;
-    animation: float-pill 4s ease-in-out infinite;
-}
+@keyframes grid-scroll { 0%{transform:translateY(0);} 100%{transform:translateY(-32px);} }
+.scanner-hologram { z-index: 2; animation: float-pill 4s ease-in-out infinite; }
 .pill-icon {
-    font-size: 8rem;
-    filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.8));
+    font-size: 7.5rem;
+    filter: drop-shadow(0 0 40px rgba(139,92,246,1)) drop-shadow(0 0 15px rgba(6,182,212,0.6));
 }
 @keyframes float-pill {
-    0%, 100% { transform: translateY(-15px); }
-    50% { transform: translateY(15px); }
+    0%,100% { transform: translateY(-18px) rotate(-3deg); }
+    50%      { transform: translateY(18px) rotate(3deg); }
 }
 .scanner-laser {
-    position: absolute;
-    width: 100%;
-    height: 4px;
-    background: #06b6d4;
-    box-shadow: 0 0 25px 8px rgba(6, 182, 212, 0.6);
-    z-index: 3;
-    animation: scan-laser 2.5s ease-in-out infinite alternate;
+    position: absolute; width: 100%; height: 3px;
+    background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+    box-shadow: 0 0 20px 6px rgba(6,182,212,0.5);
+    z-index: 3; animation: scan-laser 2.8s ease-in-out infinite alternate;
 }
 @keyframes scan-laser {
-    0% { top: 10%; opacity: 0; }
-    15% { opacity: 1; }
-    85% { opacity: 1; }
-    100% { top: 90%; opacity: 0; }
+    0%   { top: 8%;  opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { top: 92%; opacity: 0; }
 }
 .scanner-data {
-    position: absolute;
-    bottom: 20px;
-    left: 30px;
-    color: #06b6d4;
-    font-family: 'Courier New', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    z-index: 4;
-    text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    position: absolute; bottom: 20px; left: 28px;
+    color: #06b6d4; font-family: 'Courier New', monospace;
+    font-size: 0.8rem; letter-spacing: 2px; z-index: 4;
+    text-shadow: 0 0 12px rgba(6,182,212,0.6);
 }
 .crosshair {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(139, 92, 246, 0.8);
-    z-index: 2;
+    position: absolute; width: 36px; height: 36px;
+    border: 2px solid rgba(139,92,246,0.9); z-index: 2;
 }
-.top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
-.top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
-.bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
-.bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+.top-left    { top:18px;  left:18px;  border-right:none;  border-bottom:none; }
+.top-right   { top:18px;  right:18px; border-left:none;   border-bottom:none; }
+.bottom-left { bottom:18px;left:18px; border-right:none;  border-top:none; }
+.bottom-right{ bottom:18px;right:18px;border-left:none;   border-top:none; }
 </style>
 """, unsafe_allow_html=True)
 
-    # --- Feature Subsection (Light Background) ---
+    # --- Scrolling Tech Marquee ---
+    st.markdown("""
+    <div class="marquee-wrapper">
+        <div class="marquee-track">
+            <span class="marquee-item"><span class="marquee-dot">◆</span>TensorFlow</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Protect Your Family</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Instant Medicine Verification</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Detect Counterfeits in Seconds</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>AI-Powered Safety</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Trusted by Health Professionals</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Real-Time Scanning</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>97% Detection Accuracy</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Free to Use, Always</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Works on Any Device</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Your Health, Our Mission</span>
+            <!-- duplicate for seamless loop -->
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Protect Your Family</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Instant Medicine Verification</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Detect Counterfeits in Seconds</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>AI-Powered Safety</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Trusted by Health Professionals</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Real-Time Scanning</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>97% Detection Accuracy</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Free to Use, Always</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Works on Any Device</span>
+            <span class="marquee-item"><span class="marquee-dot">◆</span>Your Health, Our Mission</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- Feature Cards ---
     st.markdown("""
 <style>
 .light-section-container {
-    background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 1) 0%, rgba(240, 249, 250, 1) 100%);
-    color: #111;
-    padding: 5rem 2rem;
-    margin-top: 4rem;
-    border-radius: 3rem 3rem 0 0;
-    text-align: center;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    background: radial-gradient(circle at 50% 0%, rgba(255,255,255,1) 0%, rgba(240,249,250,1) 100%);
+    color: #111; padding: 5rem 2rem; margin-top: 4rem;
+    border-radius: 3rem 3rem 0 0; text-align: center;
+    border-top: 1px solid rgba(0,0,0,0.05);
 }
 .medical-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 2rem;
+    background: white; padding: 2.5rem; border-radius: 2rem;
     box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-    border: 1px solid rgba(6, 182, 212, 0.1);
-    text-align: left;
-    transition: 0.3s;
+    border: 1px solid rgba(6,182,212,0.1);
+    text-align: left; transition: 0.35s cubic-bezier(0.23,1,0.32,1);
 }
-.medical-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(6, 182, 212, 0.1); }
+.medical-card:hover {
+    transform: translateY(-12px) scale(1.01);
+    box-shadow: 0 30px 60px rgba(6,182,212,0.12);
+    border-color: rgba(6,182,212,0.3);
+}
+.card-icon {
+    display: inline-flex; align-items:center; justify-content:center;
+    width:52px; height:52px; border-radius:14px;
+    background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(139,92,246,0.12));
+    font-size: 1.5rem; margin-bottom: 1.5rem;
+    border: 1px solid rgba(6,182,212,0.2);
+}
 </style>
 <div class="light-section-container">
-    <div style="display: inline-block; padding: 0.4rem 1.2rem; background: rgba(6, 182, 212, 0.05); border-radius: 100px; border: 1px solid rgba(6, 182, 212, 0.2); margin-bottom: 2rem;">
-        <span style="font-size: 0.8rem; font-weight: 600; color: #06b6d4; letter-spacing: 1px; text-transform: uppercase;">Advanced Verification</span>
+    <div style="display:inline-block;padding:0.4rem 1.2rem;
+         background:rgba(6,182,212,0.05);border-radius:100px;
+         border:1px solid rgba(6,182,212,0.2);margin-bottom:2rem;">
+        <span style="font-size:0.78rem;font-weight:700;color:#06b6d4;
+            letter-spacing:1.5px;text-transform:uppercase;">Advanced Verification</span>
     </div>
-    <h2 style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; color: #0f172a; margin-bottom: 4rem; letter-spacing: -1px;">
-        Saving lives through <br>state-of-the-art AI
+    <h2 style="font-size:clamp(2rem,4vw,3.5rem);font-weight:900;
+         color:#0f172a;margin-bottom:4rem;letter-spacing:-1.5px;">
+        Saving lives through<br>state-of-the-art AI
     </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+         gap:2rem;max-width:1200px;margin:0 auto;padding:0 1rem;">
         <div class="medical-card">
-            <div style="color:#06b6d4; margin-bottom:1.5rem;">[ ⚡ ]</div>
-            <h3 style="font-weight:700; margin-bottom:1rem;">Instant Analysis</h3>
-            <p style="color:#64748b; font-size:0.95rem;">Get verification results in milliseconds. Our system scans for micro-variations in holographic patterns and typography.</p>
+            <div class="card-icon">⚡</div>
+            <h3 style="font-weight:800;margin-bottom:0.8rem;color:#0f172a;">Instant Analysis</h3>
+            <p style="color:#64748b;font-size:0.93rem;line-height:1.65;">Results in milliseconds. Our system scans for micro-variations in holographic patterns and pharmaceutical typography.</p>
         </div>
         <div class="medical-card">
-            <div style="color:#06b6d4; margin-bottom:1.5rem;">[ 🛡️ ]</div>
-            <h3 style="font-weight:700; margin-bottom:1rem;">Spectral Accuracy</h3>
-            <p style="color:#64748b; font-size:0.95rem;">Beyond simple photos. Our neural network analyzes spectral consistency and color saturation across a global database.</p>
+            <div class="card-icon">🛡️</div>
+            <h3 style="font-weight:800;margin-bottom:0.8rem;color:#0f172a;">Spectral Accuracy</h3>
+            <p style="color:#64748b;font-size:0.93rem;line-height:1.65;">Beyond simple photos. Our neural network analyzes spectral consistency and color saturation across a verified global database.</p>
         </div>
         <div class="medical-card">
-            <div style="color:#06b6d4; margin-bottom:1.5rem;">[ 🌍 ]</div>
-            <h3 style="font-weight:700; margin-bottom:1rem;">Global Registry</h3>
-            <p style="color:#64748b; font-size:0.95rem;">Connected to a vast database of genuine pharmaceutical benchmarks from around the world for unmatched precision.</p>
+            <div class="card-icon">🌍</div>
+            <h3 style="font-weight:800;margin-bottom:0.8rem;color:#0f172a;">Global Registry</h3>
+            <p style="color:#64748b;font-size:0.93rem;line-height:1.65;">Connected to a vast database of genuine pharmaceutical benchmarks from around the world for unmatched precision.</p>
         </div>
     </div>
 </div>
