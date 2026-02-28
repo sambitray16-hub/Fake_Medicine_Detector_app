@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Medicine Detector | AI-Powered Safety</title>
+    <meta name="description"
+        content="Protect yourself from counterfeit medicines using our AI-powered detection system. Upload or scan medicine packaging for instant verification.">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <i data-lucide="shield-check"></i>
+                MedGuard AI
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#scan">Scan Medicine</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="btn btn-primary" onclick="location.href='#scan'">Get Started</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>Detect Fake Medicines <br>with AI Precision</h1>
+                <p>Ensuring your health safety by identifying counterfeit pharmaceuticals through advanced image
+                    recognition technology. Fast, reliable, and easy to use.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-primary btn-lg" onclick="location.href='#scan'">
+                        <i data-lucide="scan"></i> Start Scanning Now
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scanner Section -->
+        <section id="scan" class="scanner">
+            <div class="container">
+                <div class="scanner-container">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Scan Your Medicine</h2>
+
+                    <div id="upload-area" class="upload-area">
+                        <div class="upload-content">
+                            <i data-lucide="upload-cloud" class="upload-icon"></i>
+                            <p>Drag & Drop images here or <strong>browse</strong></p>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Supports JPG, PNG (Max
+                                5MB)</span>
+                        </div>
+                        <input type="file" id="file-input" hidden accept="image/*">
+                    </div>
+
+                    <div style="text-align: center; margin: 1.5rem 0;">
+                        <span style="color: var(--text-muted);">— OR —</span>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <button id="webcam-btn" class="btn" style="background: #e2e8f0; color: var(--text-main);">
+                            <i data-lucide="camera"></i> Use Webcam
+                        </button>
+                    </div>
+
+                    <div id="video-container" style="display: none; margin-top: 1.5rem;">
+                        <video id="webcam" autoplay playsinline style="width: 100%; border-radius: 10px;"></video>
+                        <button id="capture-btn" class="btn btn-primary"
+                            style="margin-top: 1rem; width: 100%; justify-content: center;">
+                            Capture Photo
+                        </button>
+                    </div>
+
+                    <div id="preview-container" style="display: none; margin-top: 2rem; text-align: center;">
+                        <img id="image-preview" src="" alt="Preview"
+                            style="max-width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+                        <button id="analyze-btn" class="btn btn-primary"
+                            style="width: 100%; justify-content: center; padding: 1rem;">
+                            Analyze Medicine
+                        </button>
+                    </div>
+
+                    <div id="loader" class="loader"></div>
+
+                    <!-- Result Display -->
+                    <div id="result" class="result-card">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                            <h3 id="result-status">Genuine</h3>
+                            <span id="confidence-badge"
+                                style="padding: 0.25rem 0.75rem; border-radius: 20px; font-weight: 700;">98%
+                                Confidence</span>
+                        </div>
+                        <p id="result-text" style="margin-bottom: 1rem;">Medicine detected: Paracetamol (Brand X)</p>
+                        <div id="result-details" style="font-size: 0.9rem; opacity: 0.8;">
+                            Detailed analysis: Hologram verified, font spacing consistent.
+                        </div>
+                        <button class="btn" style="margin-top: 1.5rem; background: rgba(0,0,0,0.05);"
+                            onclick="resetScanner()">Scan Another</button>
+                        <!-- History Section -->
+                        <div id="scan-history"
+                            style="margin-top: 3rem; border-top: 1px solid #e2e8f0; padding-top: 2rem;">
+                            <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="history" style="width: 18px;"></i> Recent Scans
+                            </h4>
+                            <div id="history-list"
+                                style="display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;">
+                                <!-- History items will be injected here -->
+                                <p style="color: var(--text-muted); font-size: 0.8rem;">No recent scans yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="container" style="padding: 6rem 0;">
+            <h2 class="section-title">Why MedGuard AI?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="feature-card">
+                    <i data-lucide="zap" style="color: var(--primary);"></i>
+                    <h3>Instant Results</h3>
+                    <p>Get AI analysis in seconds with detailed verification reports identifying potential red flags in
+                        packaging.</p>
+                </div>
+                <div class="feature-card">
+                    <i data-lucide="database" style="color: var(--secondary);"></i>
+                    <h3>Smart Recognition</h3>
+                    <p>Our model is trained to spot inconsistencies in typography, hologram quality, and color
+                        variations.</p>
+                </div>
+                <div class="feature-card">
+                    <i data-lucide="lock" style="color: var(--accent);"></i>
+                    <h3>Privacy First</h3>
+                    <p>We prioritize your data security. Images are processed in real-time and never stored permanently
+                        without consent.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="container" style="padding: 6rem 0;">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Saving Lives Through Technology</h2>
+                    <p style="margin-bottom: 1rem;">MedGuard AI was born from a simple mission: to make high-end
+                        pharmaceutical verification accessible to everyone. Counterfeit medicines are a global threat,
+                        and our AI detection tool helps patients and pharmacists verify products in seconds.</p>
+                    <p>Using Deep Learning and Computer Vision, we analyze the subtle details of medicine packaging that
+                        are often missed by the human eye.</p>
+                </div>
+                <div class="about-image"
+                    style="height: 300px; border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow);">
+                    <img src="assets/hero.png" alt="Medicine Verification AI"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container" style="padding: 6rem 0;">
+            <h2 class="section-title">Get In Touch</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea rows="5" placeholder="How can we help you?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send
+                    Message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer style="padding: 4rem 0; background: #f1f5f9; text-align: center; margin-top: 4rem;">
+        <div class="container">
+            <p>&copy; 2026 MedGuard AI. All rights reserved.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">Disclaimer: This tool is for
+                educational/reference purposes. Always consult a professional pharmacist.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
